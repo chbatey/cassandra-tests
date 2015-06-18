@@ -1,0 +1,21 @@
+---
+
+- hosts: opscenter
+  remote_user: ubuntu
+  sudo: yes
+  vars:
+      seeds: 172.31.9.190
+  roles:
+    - opscenter
+    - common
+
+- hosts: cassandra
+  remote_user: ubuntu
+  sudo: yes
+  vars:
+    cluster_name: Test Cluster
+    seeds:  172.31.9.190 # one in each rack, private IP
+    opscenter_private_ip: 172.31.4.12
+  roles:
+    - cassandra
+    - common

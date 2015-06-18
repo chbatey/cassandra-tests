@@ -1,0 +1,5 @@
+[opscenter]
+54.72.167.207 private_ip=172.31.4.12
+
+[cassandra]
+54.171.56.215 private_ip=172.31.9.190

@@ -1,0 +1,3 @@
+stomp_interface: {{ opscenter_private_ip }}
+seed_hosts: {{ seeds }}
+hosts: {{ seeds }}

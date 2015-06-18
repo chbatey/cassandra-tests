@@ -1,0 +1,43 @@
+- group: name=cassandra state=present
+
+- user: name=cassandra comment="Cassanadra User" group=cassandra
+
+- file: path=/etc/cassandra/ state=directory owner=cassandra group=cassandra
+
+- file: path=/media/hdd2/ state=directory owner=cassandra group=cassandra
+
+- file: path=/media/hdd1/ state=directory owner=cassandra group=cassandra
+
+#I think this should be part of provisioning as it will differ per instance type
+#- filesystem: fstype=ext4 dev=/dev/xvdc force=yes
+#
+#- mount: name=/media/hdd2/ src=/dev/xvdc fstype=ext4 state=present
+
+- template: src=cassandra.yaml dest=/etc/cassandra/ owner=cassandra group=cassandra
+
+- name: install java
+  apt: name=openjdk-7-jre state=present update_cache=yes
+
+- name: add cassandra debian repository
+  apt_repository: repo='deb http://debian.datastax.com/community stable main' state=present
+
+- name: add the key for the cassandra debian repo
+  apt_key: url=http://debian.datastax.com/debian/repo_key
+
+- name: install opscenter agent
+  apt: name=datastax-agent state=present update_cache=yes
+
+- template: src=address.yaml dest=/var/lib/datastax-agent/conf/
+
+- name: install cassandra
+  apt: name=dsc21=2.1.6-1 state=present update_cache=yes
+
+- name: make sure cassandra is started
+  service: name=datastax-agent state=restarted
+
+- name: make sure cassandra is started
+  service: name=cassandra state=started
+
+#- cron: name="Run repair" minute="0" hour="0" day="{{ repair_day}}" job="nodetool repair -pr"
+#  tags:
+#    - cron
