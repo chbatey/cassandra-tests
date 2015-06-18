@@ -9,7 +9,7 @@
 
 - file: path=/etc/opscenter/clusters/ state=directory
 
-- template: src=LightPractice.conf dest=/etc/opscenter/clusters/LightPractice.conf
+- template: src=TestCluster.conf dest=/etc/opscenter/clusters/Test Cluster.conf
 
 - name: start opscenter
   service: name=opscenterd state=started
